@@ -1,0 +1,261 @@
+<%- include('../components/head.ejs') %>
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+                <div class="row-cols-1 mb-4">
+                    <h5 class="mb-0 text-gray-800 font-weight-bold">Daftar Bank</h5>
+                </div>
+                <div class="row-cols-1">
+                    <% if (alert.message != '') { %>
+                        <div class="alert alert-<%= alert.status %>" role="alert">
+                            <%- alert.status == 'success' ? `<i class="fas fa-check-square mr-2"></i>`: `<i class="fas fa-exclamation-triangle"></i>` %> 
+                            <%= alert.message %>
+                        </div>
+                    <% } %>
+                </div>
+                <div class="flash-messages"></div>
+                <!-- DataTales Example -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
+                            data-target="#createBank">
+                            <i class="fas fa-plus-circle fa-sm text-white"></i> Tambah Data
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>Nama </th>
+                                        <th>Gambar</th>
+                                        <th>Nomor Akun</th>
+                                        <th>Pemilik Akun</th>
+                                        <th>Action</th>
+
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <% for( let i=0; i < bank.length; i++ ) { %>
+                                        <tr>
+                                            <td>
+                                                <%= i+1 %>
+                                            </td>
+                                            <td>
+                                                <%= bank[i].nama %>
+                                            </td>
+                                            <td>
+                                                <img src="/images/<%= bank[i].gambar %>" width="150vh" alt="">
+                                            </td>
+                                            <td>
+                                                <%= bank[i].nomorAkun %>
+                                            </td>
+                                            <td>
+                                                <%= bank[i].pemilikAkun %>
+                                            </td>
+
+                                            <td>
+                                                <button type="button" title="edit"
+                                                    class="btn btn-sm btn-primary text-white btn-edit"
+                                                    data-id="<%= bank[i]._id %>" data-nama="<%= bank[i].nama %>"
+                                                    data-gambar="<%= bank[i].gambar %>"
+                                                    data-nomor="<%= bank[i].nomorAkun %>"
+                                                    data-akun="<%= bank[i].pemilikAkun %>">
+                                                    <i class="fa fa-edit"></i>
+                                                </button>
+                                                <button type="button" title="hapus" class="btn btn-sm btn-danger btn-delete"
+                                                    data-id="<%= bank[i]._id %>">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Modal Create -->
+            <div class="modal fade" id="createbank" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger text-white">
+                            <h5 class="modal-title">Tambah Data</h5>
+                            <button type="button" class="close text-white" data-dismiss="modal"
+                                aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form id="bankFormCreate" action="/admin/tambah-bank" method="post"
+                            enctype="multipart/form-data">
+                            <div class="modal-body">
+
+                                <div class="form-group">
+                                    <label for="nama" class="font-weight-bold"> Nama </label>
+                                    <input type="text" class="form-control nama" name="nama" id="nama"
+                                        placeholder="tambah nama" autocomplete="off">
+                                    <div class="errorMessage text-danger"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="gambarBank" class="font-weight-bold"> Gambar </label>
+                                    <input type="file" class="form-control gambar" name="gambar"
+                                        id="gambarBank" placeholder="tambah gambar" autocomplete="off">
+                                    <div class="errorMessage text-danger"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nomorAkun" class="font-weight-bold"> Nomor Akun </label>
+                                    <input type="text" class="form-control nomorAkun" name="nomorAkun"
+                                        id="nomorAkun" placeholder="tambah nomor akun" autocomplete="off">
+                                </div>
+                                <div class="errorMessage text-danger"></div>
+                                <div class="form-group">
+                                    <label for="pemilikAkun" class="font-weight-bold"> Pemilik Akun </label>
+                                    <input type="text" class="form-control pemilikAkun" name="pemilikAkun"
+                                        id="pemilikAkun" placeholder="add pemilik akun" autocomplete="off">
+                                    <div class="errorMessage text-danger"></div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-save"></i>
+                                    Simpan
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Modal Edit -->
+            <div class="modal fade" id="editBank" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-light text-secondary">
+                            <h5 class="modal-title">Edit Data</h5>
+                            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form id="bankFormUpdate" enctype="multipart/form-data"
+                            action="/admin/ubah-bank?_method=put" method="post">
+                            <div class="modal-body">
+                                <input type="" class="form-control id-bank" name="id" readonly>
+                                <div class="form-group">
+                                    <label for="nama" class="font-weight-bold"> nama </label>
+                                    <input type="text" class="form-control nama nama-bank" name="namaBank"
+                                        id="nama" placeholder="tambah nama.." autocomplete="off">
+                                    <div class="errorMessageUpdate text-danger"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="gambarUpdate" class="font-weight-bold"> gambar </label>
+                                    <input type="file" class="form-control gambar gambar-bank" name="gambar"
+                                        id="gambarUpdate" autocomplete="off">
+                                </div>
+                                    <div class="errorMessageUpdate text-danger"></div>
+                                    <div class="form-group">
+                                        <label for="nomorAkun" class="font-weight-bold"> Nomor Akun </label>
+                                        <input type="text" class="form-control nomorAkun nomor-akun"
+                                            name="nomorAkunBank" id="nomorAkun"
+                                            placeholder="tambah nomor akun.." autocomplete="off">
+                                        <div class="errorMessageUpdate text-danger"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="pemilikAkun" class="font-weight-bold"> Pemilik Akun </label>
+                                        <input type="text" class="form-control pemilikAkun pemilik-akun" name="pemilikAkunBank"
+                                            id="pemilikAkun" placeholder="tambah pemilik Akun.." autocomplete="off">
+                                        <div class="errorMessageUpdate text-danger"></div>
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-save"></i>
+                                    Simpan
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Delete -->
+            <div class="modal fade" id="deleteBank" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title">Konfirmasi Hapus</h5>
+                        <button type="button" class="close text-white" data-dismiss="modal"
+                            aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="post" class="delete-bank  ">
+                        <div class="modal-body">
+                            <h5> Yakin ingin hapus data ?</h5>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fa fa-check-circle"></i>
+                                Yes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            </div>
+
+
+
+            <script>
+                // <!-- Modal Jquery Edit -->
+               
+                    
+                
+                $('#dataTable').on('click', '.btn-edit', function() {
+                    $('#editBank').modal('show');
+                    let id = $(this).data('id');
+                    let nama = $(this).data('nama');
+                    let nomorAkun = $(this).data('nomor');
+                    let pemilikAkun = $(this).data('akun');
+                    // console.log(nama);
+                    // console.log(id);
+                    // console.log(nomorAkun);
+                    // console.log(pemilikAkun);
+                    
+                    $('.id-bank').val(id);
+                    $('.nama-bank').val(nama);
+                    $('.nomor-akun').val(nomorAkun);
+                    $('.pemilik-akun').val(pemilikAkun);
+                });
+
+                // Modal Delete
+                $('#dataTable').on('click', '.btn-delete', function() {
+                    $('#deleteBank').modal('show');
+                    let id = $(this).data('id');
+                    // console.log(id);
+                    let url = `/admin/delete-bank/${id}?_method=delete`;
+                    $('.delete-bank').attr('action', url);
+
+                });
+
+                $(document).ready(function () {
+                    const timerAlert = $('.alert').text();
+                    if (timerAlert !== '') {
+                        setTimeout(function () {
+                            $('.alert').fadeOut('slow')
+                        }, 3000);
+                    }
+                });
+            </script>
+        <%- include('../components/bottom.ejs') %>

@@ -1,0 +1,105 @@
+
+<%- include('../components/head.ejs') %>
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+            <div class="row-cols-1 mb-4">
+                <h5 class="mb-0 text-gray-800 font-weight-bold">Daftar Pemesanan</h5>
+            </div>
+            <!-- DataTales Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <!-- <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#createPemesanan">
+                        <i class="fas fa-plus-circle fa-sm text-white"></i> Tambah Data
+                    </button> -->
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>userId</th>
+                                    <th>keranjangId</th>
+                                    <th>Tanggal</th>
+                                    <th>Action</th>
+
+                                    
+                                </tr>
+                            </thead>
+                            
+                            <tbody>
+                                <tr>
+                                    <td>Tiger Nixon</td>
+                                    <td>System Architect</td>
+                                    <td>Edinburgh</td>
+                                    <td>
+                                        <button type="button"
+                                            class="btn btn-sm btn-primary text-white btn-edit"
+                                        >
+                                            <i class="fa fa-edit"></i>
+                                            Edit
+                                        </button>
+                                        <!-- <button type="button" class="btn btn-sm btn-danger btn-delete"
+                                        
+                                        >
+                                            <i class="fa fa-trash"></i>
+                                            Delete
+                                        </button> -->
+                                    </td>
+                                    
+                                </tr>
+                                
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+        <!-- Modal Create -->
+<div class="modal fade" id="createpemesanan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Tambah Data</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="pemesananFormCreate" action="/admin/create-pemesanan" method="post" enctype="multipart/form-data">
+                <div class="modal-body">     
+                    
+                    <div class="form-group">
+                        <label for="userIdPemesanan" class="font-weight-bold"> userId </label>
+                        <input type="text" class="form-control userId" name="userId" id="userIdPemesanan"
+                            placeholder="add userId" autocomplete="off">
+                        <div class="errorMessage text-danger"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="keranjangIdPemesanan" class="font-weight-bold"> keranjangId </label>
+                        <input type="text" class="form-control keranjangId" name="keranjangId" id="keranjangIdPemesanan"
+                            placeholder="add keranjangId" autocomplete="off">
+                        <div class="errorMessage text-danger"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="tanggalIdPemesanan" class="font-weight-bold"> tanggalId </label>
+                        <input type="number" class="form-control tanggalId" name="tanggalId" id="tanggalIdPemesanan"
+                            placeholder="add tanggalId" autocomplete="off">
+                        <div class="errorMessage text-danger"></div>
+                    </div>
+                    
+                    
+                    
+                </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-save"></i>
+                    Save
+                </button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include('../components/bottom.ejs') %>

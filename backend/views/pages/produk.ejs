@@ -1,0 +1,407 @@
+<%- include('../components/head.ejs') %>
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+        <div class="row-cols-1 mb-4">
+            <h5 class="mb-0 text-gray-800 font-weight-bold">Daftar Produk</h5>
+        </div>
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
+                    data-target="#createProduk">
+                    <i class="fas fa-plus-circle fa-sm text-white"></i> Tambah Data
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>Nama Produk</th>
+                                <th>kategori</th>
+                                <th>Harga</th>
+                                <th>Gambar</th>
+                                <th>Desckripsi</th>
+                                <th>isRecommendation</th>
+                                <th>Action</th>
+
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <% for( let i=0; i < cake.length; i++ ) { %>
+                                <tr>
+                                    <td>
+                                        <%= i+1 %>
+                                    </td>
+                                    <td>
+                                        <%= cake[i].namaProduk %>
+                                    </td>
+                                    <td>
+                                        <%= cake[i].kategori %>
+                                    </td>
+                                    <td>
+                                        <%= cake[i].harga %>
+                                    </td>
+                                    <td>
+                                        <img src="/images/<%= cake[i].gambar %>" width="150vh" alt="">
+                                    </td>
+                                    <td>
+                                        <%= cake[i].desckripsi %>
+                                    </td>
+                                    <td>
+                                        <%= cake[i].isRecommendation %>
+                                    </td>
+
+                                    <td>
+                                        <button type="button" title="edit"
+                                            class="btn btn-sm btn-primary text-white btn-edit"
+                                            data-id="<%= cake[i]._id %>"
+                                            data-produk="<%= cake[i].namaProduk %>"
+                                            data-kategori="<%= cake[i].kategori %>"
+                                            data-harga="<%= cake[i].harga %>"
+                                            data-gambar="<%= cake[i].gambar %>"
+                                            data-desckripsi="<%= cake[i].desckripsi %>"
+                                            data-recommended="<%= cake[i].isRecommendation%>">
+                                            <i class="fa fa-edit"></i>
+                                            
+                                        </button>
+                                        <button type="button" title="hapus" class="btn btn-sm btn-danger btn-delete"
+                                            data-id="<%= cake[i]._id %>">
+                                            <i class="fa fa-trash"></i>
+                                            
+                                        </button>
+                                    </td>
+                                </tr>
+                                <% } %>
+
+
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Modal Create -->
+    <div class="modal fade" id="createproduk" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Tambah Data</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="produkFormCreate" action="/admin/tambah-produk" method="post"
+                    enctype="multipart/form-data">
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label for="namaProduk" class="font-weight-bold"> Nama Produk </label>
+                            <input type="text" class="form-control namaProduk" name="namaProduk"
+                                id="namaProduk" placeholder="add namaProduk" autocomplete="off">
+                            <div class="errorMessage text-danger"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="kategoriProduk" class="font-weight-bold"> Kategori </label>
+                            <input type="text" class="form-control kategori" name="kategori"
+                                id="kategoriProduk" placeholder="add kategori" autocomplete="off">
+                            <div class="errorMessage text-danger"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="hargaProduk" class="font-weight-bold"> Harga </label>
+                            <input type="text" class="form-control harga" name="harga" id="hargaProduk"
+                                placeholder="add harga" autocomplete="off">
+                            <div class="errorMessage text-danger"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="gambarProduk" class="font-weight-bold"> Gambar </label>
+                            <input type="file" class="form-control gambar" name="gambar"
+                                id="gambarProduk" placeholder="add gambar" autocomplete="off">
+                            <div class="errorMessage text-danger"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="desckripsiProduk" class="font-weight-bold"> Deskripsi </label>
+                            <input type="text" class="form-control desckripsi" name="desckripsi"
+                                id="desckripsiProduk" placeholder="add desckripsi" autocomplete="off">
+                            <div class="errorMessage text-danger"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="isRecommendation" class="font-weight-bold">
+                                Rekomendasi</label>
+                            <select name="isRecommendation" id="isRecommendation"
+                                class="form-control isRecommendation">
+                                <option>Pilih Satu</option>
+                                <option value="true"> Ya</option>
+                                <option value="false"> Tidak</option>
+                            </select>
+                            <div class="errorMessage text-danger"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-save"></i>
+                            Save
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Edit -->
+    <div class="modal fade" id="editProduk" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-light text-secondary">
+                    <h5 class="modal-title">Edit Data</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="produkFormUpdate" enctype="multipart/form-data"
+                    action="/admin/ubah-produk?_method=put" method="post">
+                    <div class="modal-body">
+                        <input type="" class="form-control id-produk" name="id" readonly>
+                        <div class="form-group">
+                            <label for="namaProduk" class="font-weight-bold"> Nama Produk </label>
+                            <input type="text" class="form-control nama nama-produk" name="namaProduk"
+                                id="namaProduk" placeholder="please add produk nama.."
+                                autocomplete="off">
+                            <div class="errorMessageUpdate text-danger"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="kategoriProduk" class="font-weight-bold"> Kategori </label>
+                            <input type="text" class="form-control kategori kategori-produk"
+                                name="kategoriProduk" id="kategoriProduk"
+                                placeholder="please add produk kategori.." autocomplete="off">
+                            <div class="errorMessageUpdate text-danger"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="hargaProduk" class="font-weight-bold"> Harga </label>
+                            <input type="text" class="form-control harga harga-produk"
+                                name="hargaProduk" id="hargaProduk"
+                                placeholder="please add produk harga.." autocomplete="off">
+                            <div class="errorMessageUpdate text-danger"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="gambarUpdateProduk" class="font-weight-bold"> Gambar </label>
+                            <input type="file" class="form-control gambar gambar-produk" name="gambar"
+                                id="gambarUpdateProduk" autocomplete="off">
+                            <div class="errorMessageUpdate text-danger"></div>
+                            <div class="errorFileUpdate text-danger"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="desckripsiProduk" class="font-weight-bold"> Deskripsi </label>
+                            <input type="text" class="form-control desckripsi desckripsi-produk"
+                                name="desckripsiProduk" id="desckripsiProduk"
+                                placeholder="please add produk desckripsi.." autocomplete="off">
+                            <div class="errorMessageUpdate text-danger"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="isRecommendation" class="font-weight-bold">
+                                Rekomendasi</label>
+                            <select name="isRecommendation" id="isRecommendation"
+                                class="form-control isRecommendation is-recommendation">
+                            </select>
+                            <div class="errorMessageUpdate text-danger"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-save"></i>
+                            Simpan
+                        </button>
+                    </div>
+                </form>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Delete -->
+    <div class="modal fade" id="deleteProduk" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Konfirmasi Hapus</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" class="delete-produk  ">
+                    <div class="modal-body">
+                        <h5> Yakin ingin menghapus data ?</h5>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fa fa-check-circle"></i>
+                            Ya
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // <!-- Modal Jquery Edit -->
+
+
+
+        $('#dataTable').on('click', '.btn-edit', function () {
+            $('#editProduk').modal('show');
+            let id = $(this).data('id');
+            let nama = $(this).data('produk');
+            let kategori = $(this).data('kategori');
+            let harga = $(this).data('harga');
+            let desckripsi = $(this).data('desckripsi');
+            let recommend = $(this).data('recommended');
+
+            console.log(nama);
+            console.log(id);
+            console.log(kategori);
+            console.log(harga);
+            console.log(desckripsi);
+
+            $('.id-produk').val(id);
+            $('.nama-produk').val(nama);
+            $('.kategori-produk').val(kategori);
+            $('.harga-produk').val(harga);
+            $('.desckripsi-produk').val(desckripsi);
+
+            let optionRecommendation = `<option>--Choose One--</option>`;
+            if (recommend) {
+                optionRecommendation += `<option value="true" selected>Ya</option>`;
+                optionRecommendation += `<option value="false">Tidak</option>`;
+            } else {
+                optionRecommendation += `<option value="true">Ya</option>`;
+                optionRecommendation += `<option value="false" selected>Tidak</option>`;
+            }
+
+            $('.is-recommendation').html(optionRecommendation);
+        });
+
+        // Modal Delete
+        $('#dataTable').on('click', '.btn-delete', function () {
+            $('#deleteProduk').modal('show');
+            let id = $(this).data('id');
+            console.log(id);
+            let url = `/admin/delete-produk/${id}?_method=delete`;
+            $('.delete-produk').attr('action', url);
+
+        });
+
+        $(document).ready(function () {
+            const timerAlert = $('.alert').text();
+            if (timerAlert !== '') {
+                setTimeout(function () {
+                    $('.alert').fadeOut('slow')
+                }, 3000);
+            }
+        });
+
+        // jquery ajax untuk response validasi
+$('#promoFormCreate').submit(function(event) {
+event.preventDefault();
+let formData = new FormData(this);
+$.ajax({
+method: 'POST',
+url: '/admin/create-promo',
+async: true,
+data: formData,
+contentType: false,
+processData: false,
+    success: function(response) {
+        console.log(response);
+        if( response.errors && response.errors.length > 0) {
+            $('.errorMessage').empty();
+            response.errors.forEach(function(error){
+                $('.form-control.' + error.path).siblings('.errorMessage').text(error.msg);
+            });
+        } else {
+            $('#createPromo').modal('hide');
+            let alertMsg = response.alertMsg;
+            let alertStatus = response.alertStatus;
+
+            $('.flash-messages').html(
+                `<div class=" alert alert-` + alertStatus + `"role="alert">` +
+                (alertStatus === 'success' ? `<i class="fas fa-check-square mr-2"></i>` : ` <i class="fas fa-exlamation-triangle"></i>`)
+                + alertMsg + `</div>`
+            );
+
+            const timerAlert = $('.flash-messages').html();
+            if( timerAlert !== '') {
+                setTimeout(function(){
+                    $('.flash-messages').fadeOut('slow')
+                }, 3000);
+            }
+            location.reload();
+        }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+        console.error('Error:', errorThrown);
+        $('.errorFile').text('Bad, please check again your upload.');
+    }
+});
+});
+
+// validasi form update
+$('#promoFormUpdate').submit(function(event) {
+event.preventDefault();
+let formData = new FormData(this);
+$.ajax({
+method: 'POST',
+url: '/admin/update-promo?_method=put',
+async: true,
+data: formData,
+contentType: false,
+processData: false,
+    success: function(response) {
+        console.log(response);
+        if( response.errors && response.errors.length > 0) {
+            $('.errorMessageUpdate').empty();
+            response.errors.forEach(function(error){
+                $('.form-control.' + error.path).siblings('.errorMessageUpdate').text(error.msg);
+            });
+        } else {
+            $('#editPromo').modal('hide');
+            let alertMsg = response.alertMsg;
+            let alertStatus = response.alertStatus;
+
+            $('.flash-messages').html(
+                `<div class=" alert alert-` + alertStatus + `"role="alert">` +
+                (alertStatus === 'success' ? `<i class="fas fa-check-square mr-2"></i>` : ` <i class="fas fa-exlamation-triangle"></i>`)
+                + alertMsg + `</div>`
+            );
+
+            const timerAlert = $('.flash-messages').html();
+            if( timerAlert !== '') {
+                setTimeout(function(){
+                    $('.flash-messages').fadeOut('slow')
+                }, 3000);
+            }
+            location.reload();
+        }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+        console.error('Error:', errorThrown);
+        $('.errorFileUpdate').text('Bad, please check again your upload.');
+    }
+});
+});
+
+
+
+    </script>
+<%- include('../components/bottom.ejs') %>

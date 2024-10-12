@@ -1,0 +1,117 @@
+<%- include('../components/head.ejs') %>
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+            <div class="row-cols-1 mb-4">
+                <h5 class="mb-0 text-gray-800 font-weight-bold">Daftar Pembayaran</h5>
+            </div>
+            <!-- DataTales Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <!-- <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#createpembayaran">
+                        <i class="fas fa-plus-circle fa-sm text-white"></i> Tambah Data
+                        </button> -->
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Id Pemesanan</th>
+                                    <th>Id Metode Bayar</th>
+                                    <th>Total Bayar</th>
+                                    <th>Tanggal</th>
+                                    <th>status</th>
+                                    <th>Action</th>
+
+                                    
+                                </tr>
+                            </thead>
+                            
+                            <tbody>
+                                <tr>
+                                    <td>Tiger Nixon</td>
+                                    <td>System Architect</td>
+                                    <td>Edinburgh</td>
+                                    <td>wert</td>
+                                    <td>61</td>
+                                    <td>
+                                        <button type="button" title="edit"
+                                            class="btn btn-sm btn-primary text-white btn-edit"
+                                            
+                                            >
+                                            <i class="fa fa-edit"></i>
+                                            
+                                        </button>
+                                        <button type="button" title="hapus" class="btn btn-sm btn-danger btn-delete"
+                                           
+                                            >
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
+                                    
+                                </tr>
+                                
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+                    <!-- Modal Create -->
+            <div class="modal fade" id="createpembayaran" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-info text-white">
+                            <h5 class="modal-title">Create Data</h5>
+                            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form id="pembayaranFormCreate" action="/admin/create-pembayaran" method="post" enctype="multipart/form-data">
+                            <div class="modal-body">     
+                                
+                                <div class="form-group">
+                                    <label for="pemesananIdPembayaran" class="font-weight-bold"> pemesananId </label>
+                                    <input type="text" class="form-control pemesananId" name="pemesananId" id="pemesananIdPembayaran"
+                                        placeholder="add pemesananId" autocomplete="off">
+                                    <div class="errorMessage text-danger"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="metodeBayarIdPembayaran" class="font-weight-bold"> metodeBayarId </label>
+                                    <input type="text" class="form-control metodeBayarId" name="metodeBayarId" id="metodeBayarIdPembayaran"
+                                        placeholder="add metodeBayarId" autocomplete="off">
+                                        <div class="errorMessage text-danger"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="hargaPembayaran" class="font-weight-bold"> harga </label>
+                                    <input type="number " class="form-control harga" name="harga" id="hargaPembayaran"
+                                        placeholder="add harga" autocomplete="off">
+                                        <div class="errorMessage text-danger"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tanggalPembayaran" class="font-weight-bold"> tanggal </label>
+                                    <input type="text" class="form-control tanggal" name="tanggal" id="tanggalPembayaran"
+                                        placeholder="add tanggal" autocomplete="off">
+                                        <div class="errorMessage text-danger"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="statusPembayaran" class="font-weight-bold"> status </label>
+                                    <input type="text" class="form-control status" name="status" id="statusPembayaran"
+                                        placeholder="add status" autocomplete="off">
+                                        <div class="errorMessage text-danger"></div>
+                                </div>
+                                
+                                
+                            </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-save"></i>
+                                Save
+                            </button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <%- include('../components/bottom.ejs') %>

@@ -1,0 +1,230 @@
+<%- include('../components/head.ejs') %>
+    <div class="container-fluid">
+        <div class="row-cols-1 mb-4">
+            <h5 class="mb-0 text-gray-800 font-weight-bold">Daftar Testimoni</h5>
+        </div>
+        <div class="row-cols-1">
+            <% if (alert.message != '') { %>
+                <div class="alert alert-<%= alert.status %>" role="alert">
+                    <%- alert.status == 'success' ? `<i class="fas fa-check-square mr-2"></i>`: `<i class="fas fa-exclamation-triangle"></i>` %> 
+                    <%= alert.message %>
+                </div>
+            <% } %>
+        </div>
+        <div class="flash-messages"></div>
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#createTestimonial">
+                    <i class="fas fa-plus-circle fa-sm text-white-50"></i> Tambah Data
+                    </button>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Gambar</th>
+                                <th>Nama Lengkap</th>
+                                <th>Status</th>
+                                <th>Konten</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for( let i = 0; i < testimonial.length; i++ ) { %>
+                                <tr>
+                                    <td><%= i+1  %></td>
+                                    <td>
+                                        <img src="/images/<%= testimonial[i].image %>" width="150vh" alt="">
+                                    </td>
+                                    <td><%= testimonial[i].fullname %></td>
+                                    <td><%= testimonial[i].status %></td>
+                                    <td><%= testimonial[i].content %></td>
+                                    <td>
+                                        <button type="button" title="ubah" class="btn btn-sm bg-primary text-white btn-edit"
+                                        data-id = "<%= testimonial[i]._id %>"
+                                        data-image = "<%= testimonial[i].image %>"
+                                        data-fullname = "<%= testimonial[i].fullname %>"
+                                        data-status = "<%= testimonial[i].status %>"
+                                        data-content = "<%= testimonial[i].content %>"
+
+                                        
+                                        >
+                                            <i class="fa fa-edit"></i>
+                                            
+                                        </button>
+                                        <button type="button" title="hapus" class="btn btn-sm btn-danger btn-delete"
+                                        data-id = "<%= testimonial[i]._id %>"
+                                        >
+                                            <i class="fa fa-trash"></i>
+                                            
+                                        </button>
+                                    </td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Create -->
+    <div class="modal fade" id="createTestimonial" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Tambah Data</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="testimonialFormCreate" action="/admin/create-testimonial" method="post" enctype="multipart/form-data">
+                    <div class="modal-body">     
+                        <div class="form-group">
+                            <label for="imageCreateTestimonial" class="font-weight-bold"> Gambar </label>
+                            <input type="file" class="form-control image" name="image" id="imageCreateTestimonial"
+                                placeholder="tambah gambar" autocomplete="off">
+                            <div class="errorMessage text-danger"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fullnameTestimonial" class="font-weight-bold"> Nama Lengkap </label>
+                            <input type="text" class="form-control fullname" name="fullname" id="fullnameTestimonial"
+                                placeholder="tambah nama orang" autocomplete="off">
+                            <div class="errorMessage text-danger"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="statusTestimonial" class="font-weight-bold"> Status </label>
+                            <input type="text" class="form-control status" name="status" id="statusTestimonial"
+                                placeholder="tambah status" autocomplete="off">
+                                <div class="errorMessage text-danger"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="contentTestimonial" class="font-weight-bold"> Konten </label>
+                            <input type="text" class="form-control content" name="content" id="contentTestimonial"
+                                placeholder="tambah konten" autocomplete="off">
+                                <div class="errorMessage text-danger"></div>
+                        </div>
+                        
+                    </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-save"></i>
+                        Simpan
+                    </button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Edit -->
+    <div class="modal fade" id="editTestimonial" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-light text-secondary">
+                    <h5 class="modal-title">Edit Data</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="testimonialFormUpdate" action="/admin/update-testimonial?_method=put" method="post" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <input type="hidden" class="form-control id" name="id">
+                        <div class="form-group">
+                            <label for="imageUpdateTestimonial" class="font-weight-bold"> Gambar </label>
+                            <input type="file" class="form-control image image-testimonial" name="image" id="imageUpdateTestimonial"
+                                autocomplete="off">
+                            <div class="errorMessageUpdate text-danger"></div>
+                            <div class="errorFileUpdate text-danger"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fullnameTestimonial" class="font-weight-bold"> Nama Lengkap </label>
+                            <input type="text" class="form-control fullname fullname-testimonial" name="fullname" id="fullnameTestimonial"
+                                placeholder="tambah nama lengkap.." autocomplete="off">
+                            <div class="errorMessageUpdate text-danger"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="statusTestimonial" class="font-weight-bold"> Status </label>
+                            <input type="text" class="form-control status status-testimonial" name="status" id="statusTestimonial"
+                                placeholder="tambah status.." autocomplete="off">
+                            <div class="errorMessageUpdate text-danger"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="contentTestimonial" class="font-weight-bold"> Konten </label>
+                            <input type="text" class="form-control content content-testimonial" name="content" id="contentTestimonial"
+                                placeholder="tambah konten.." autocomplete="off">
+                            <div class="errorMessageUpdate text-danger"></div>    
+                        </div>
+                    </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-save"></i>
+                        Simpan
+                    </button>
+                </div>
+                </form>
+        </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Delete -->
+    <div class="modal fade" id="deleteTestimonial" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Konfirmasi Hapus</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" class="delete-testimonial   ">
+                    <div class="modal-body">
+                        <h5> Yakin ingin hapus ?</h5>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fa fa-check-circle"></i>
+                            Ya
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal Jquery Edit
+        $('#dataTable').on('click', '.btn-edit', function(){
+            $('#editTestimonial').modal('show');
+            let id = $(this).data('id');
+            let fullname = $(this).data('fullname');
+            let status = $(this).data('status');
+            let content = $(this).data('content');
+            // console.log(fullname);
+            $('.id').val(id);
+            $('.fullname-testimonial').val(fullname);
+            $('.status-testimonial').val(status);
+            $('.content-testimonial').val(content);
+
+        });
+        // Modal Delete
+        $('#dataTable').on('click', '.btn-delete', function(){
+            $('#deleteTestimonial').modal('show');
+            let id = $(this).data('id');
+            console.log(id);
+            let url = `/admin/delete-testimonial/${id}?_method=delete`;
+            $('.delete-testimonial').attr('action', url);
+            
+        });
+
+        $(document).ready(function(){
+            const timerAlert = $('.alert').text();
+            if( timerAlert !== '') {
+                setTimeout(function(){
+                    $('.alert').fadeOut('slow')
+                }, 3000);
+            }
+        });
+    </script>
+    <%- include('../components/bottom.ejs')%>

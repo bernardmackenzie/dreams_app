@@ -1,0 +1,23 @@
+<!-- End of Topbar -->
+<%- include('../components/head.ejs') %>
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <!-- Page Heading -->
+                    <div class="row-cols-1 mb-4">
+                        <h5 class="mb-0 text-gray-800 font-weight-bold">Dashboard Admin</h5>
+                    </div>
+                    <div class="row-cols-1">
+                        <% if (alert.message != '') { %>
+                            <div class="alert alert-<%= alert.status %>" role="alert">
+                                <%- alert.status == 'success' ? `<i class="fas fa-check-square mr-2"></i>`: `<i class="fas fa-exclamation-triangle"></i>` %> 
+                                <%= alert.message %>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+
+            
+            <!-- End of Main Content -->
+
+            <%- include('../components/bottom.ejs') %>
